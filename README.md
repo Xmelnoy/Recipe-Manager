@@ -1,20 +1,68 @@
 # Recipe-Manager
 
-Простой проект для управления рецептами: хранение, поиск и планирование кулинарных задач.
+Стартовый каркас проекта для менеджера рецептов на **Java** с использованием:
+- **Spring Boot** (веб-часть и REST API),
+- **Thymeleaf** (шаблоны для веб-страниц),
+- **JavaFX** (desktop UI),
+- **Maven** (сборка и управление зависимостями).
 
-## Описание проекта
+## Технологический стек
 
-`Recipe-Manager` — это репозиторий для ведения коллекции рецептов и организации работы над функционалом приложения.
+- Java 21
+- Maven
+- Spring Boot 3
+- JavaFX 21
+- JUnit 5
 
-### Основные цели
-- хранить рецепты в одном месте;
-- упростить поиск и фильтрацию блюд;
-- подготовить базу для дальнейшего расширения (категории, теги, список покупок, избранное).
+## Поверхностная структура проекта
 
-## Планируемый функционал
+```text
+Recipe-Manager/
+├─ pom.xml
+├─ README.md
+├─ data/
+│  └─ .gitkeep
+├─ docs/
+│  └─ KANBAN.md
+└─ src/
+   ├─ main/
+   │  ├─ java/com/recipemanager/
+   │  │  ├─ RecipeManagerApplication.java
+   │  │  ├─ JavaFxLauncher.java
+   │  │  ├─ controller/RecipeController.java
+   │  │  ├─ model/Recipe.java
+   │  │  └─ service/RecipeService.java
+   │  └─ resources/
+   │     ├─ application.properties
+   │     └─ templates/index.html
+   └─ test/java/com/recipemanager/
+      └─ RecipeManagerApplicationTests.java
+```
 
-- Добавление, редактирование и удаление рецептов.
-- Просмотр списка рецептов с краткой информацией.
-- Поиск рецептов по названию и ингредиентам.
-- Категоризация (например: завтрак, обед, ужин, десерт).
+## Быстрый старт
 
+### 1) Проверка сборки и тестов
+
+```bash
+mvn test
+```
+
+### 2) Запуск веб-приложения (Spring Boot)
+
+```bash
+mvn spring-boot:run
+```
+
+После запуска:
+- веб-приложение доступно на `http://localhost:8080`
+- REST endpoint доступен на `http://localhost:8080/api/recipes`
+
+### 3) Запуск JavaFX приложения
+
+```bash
+mvn javafx:run
+```
+
+## Kanban
+
+Актуальная Kanban-доска: [`docs/KANBAN.md`](docs/KANBAN.md).

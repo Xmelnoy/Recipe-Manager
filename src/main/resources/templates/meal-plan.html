@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager - Weekly Meal Plan</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <h1>Recipe Manager</h1>
+        <p>Планирование питания без хаоса</p>
+        <nav>
+            <a th:href="@{/}" th:classappend="${activePage == 'dashboard'} ? 'active' : ''">Главная</a>
+            <a th:href="@{/recipes}" th:classappend="${activePage == 'recipes'} ? 'active' : ''">Рецепты</a>
+            <a th:href="@{/meal-plan}" th:classappend="${activePage == 'meal-plan'} ? 'active' : ''">План на неделю</a>
+            <a th:href="@{/shopping-list}" th:classappend="${activePage == 'shopping-list'} ? 'active' : ''">Список покупок</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <h2>План меню на неделю</h2>
+        </header>
+
+        <section class="card stack" th:each="day : ${days}">
+            <h3 th:text="${day}">MONDAY</h3>
+            <div class="meal-grid">
+                <div class="meal-row" th:each="mealType : ${mealTypes}">
+                    <div class="meal-title" th:text="${mealType.label}">Breakfast</div>
+                    <form class="inline" method="post" th:action="@{/meal-plan/assign}">
+                        <input type="hidden" name="day" th:value="${day}">
+                        <input type="hidden" name="mealType" th:value="${mealType}">
+                        <select name="recipeId">
+                            <option value="">-</option>
+                            <option th:each="recipe : ${recipes}"
+                                    th:value="${recipe.id}"
+                                    th:text="${recipe.name}"
+                                    th:selected="${grid.get(day).get(mealType) != null and grid.get(day).get(mealType).id == recipe.id}"></option>
+                        </select>
+                        <button class="btn" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

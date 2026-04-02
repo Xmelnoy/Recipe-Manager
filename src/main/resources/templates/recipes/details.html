@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager - Recipe Details</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <h1>Recipe Manager</h1>
+        <p>Планирование питания без хаоса</p>
+        <nav>
+            <a th:href="@{/}" th:classappend="${activePage == 'dashboard'} ? 'active' : ''">Главная</a>
+            <a th:href="@{/recipes}" th:classappend="${activePage == 'recipes'} ? 'active' : ''">Рецепты</a>
+            <a th:href="@{/meal-plan}" th:classappend="${activePage == 'meal-plan'} ? 'active' : ''">План на неделю</a>
+            <a th:href="@{/shopping-list}" th:classappend="${activePage == 'shopping-list'} ? 'active' : ''">Список покупок</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <h2 th:text="${recipe.name}">Recipe</h2>
+        </header>
+
+        <section class="card stack">
+            <div class="card-header">
+                <h3>Масштабирование порций</h3>
+                <form class="inline" method="get" th:action="@{'/recipes/' + ${recipe.id}}">
+                    <input type="number" min="1" name="servings" th:value="${targetServings}">
+                    <button class="btn" type="submit">Пересчитать</button>
+                </form>
+            </div>
+            <p class="muted">Базовое число порций: <span th:text="${recipe.servings}">1</span></p>
+
+            <h3>Ингредиенты</h3>
+            <ul class="ingredient-list">
+                <li th:each="ingredient : ${scaledIngredients}">
+                    <strong th:text="${ingredient.name}">Name</strong>
+                    <span th:text="${#numbers.formatDecimal(ingredient.amount, 1, 2)} + ' ' + ${ingredient.unit}">0 unit</span>
+                    <em th:text="${ingredient.category}">category</em>
+                </li>
+            </ul>
+
+            <h3>Инструкция</h3>
+            <p class="instruction" th:text="${recipe.instruction}">Instruction</p>
+
+            <div class="actions">
+                <a class="btn" th:href="@{'/recipes/' + ${recipe.id} + '/edit'}">Редактировать</a>
+                <form th:action="@{'/recipes/' + ${recipe.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+                <a class="btn" th:href="@{/recipes}">К списку</a>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

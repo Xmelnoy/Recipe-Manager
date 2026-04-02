@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager - Shopping List</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <h1>Recipe Manager</h1>
+        <p>Планирование питания без хаоса</p>
+        <nav>
+            <a th:href="@{/}" th:classappend="${activePage == 'dashboard'} ? 'active' : ''">Главная</a>
+            <a th:href="@{/recipes}" th:classappend="${activePage == 'recipes'} ? 'active' : ''">Рецепты</a>
+            <a th:href="@{/meal-plan}" th:classappend="${activePage == 'meal-plan'} ? 'active' : ''">План на неделю</a>
+            <a th:href="@{/shopping-list}" th:classappend="${activePage == 'shopping-list'} ? 'active' : ''">Список покупок</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <h2>Список покупок</h2>
+        </header>
+
+        <section class="card">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ингредиент</th>
+                    <th>Количество</th>
+                    <th>Ед.</th>
+                    <th>Категория</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.ingredientName}">Ingredient</td>
+                    <td th:text="${#numbers.formatDecimal(item.totalAmount, 1, 2)}">0</td>
+                    <td th:text="${item.unit}">unit</td>
+                    <td th:text="${item.category}">category</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="empty" th:if="${items.isEmpty()}">Список пуст. Добавьте блюда в недельный план.</p>
+        </section>
+    </main>
+</div>
+</body>
+</html>

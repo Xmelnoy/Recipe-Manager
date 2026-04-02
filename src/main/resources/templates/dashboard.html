@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <h1>Recipe Manager</h1>
+        <p>Планирование питания без хаоса</p>
+        <nav>
+            <a th:href="@{/}" th:classappend="${activePage == 'dashboard'} ? 'active' : ''">Главная</a>
+            <a th:href="@{/recipes}" th:classappend="${activePage == 'recipes'} ? 'active' : ''">Рецепты</a>
+            <a th:href="@{/meal-plan}" th:classappend="${activePage == 'meal-plan'} ? 'active' : ''">План на неделю</a>
+            <a th:href="@{/shopping-list}" th:classappend="${activePage == 'shopping-list'} ? 'active' : ''">Список покупок</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <h2>Dashboard</h2>
+        </header>
+
+        <section class="stats-grid">
+            <article class="card stat">
+                <h3>Рецептов</h3>
+                <p th:text="${recipesCount}">0</p>
+            </article>
+            <article class="card stat">
+                <h3>Блюд в плане</h3>
+                <p th:text="${plannedMealsCount}">0</p>
+            </article>
+            <article class="card stat">
+                <h3>Покупок</h3>
+                <p th:text="${shoppingItemsCount}">0</p>
+            </article>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h3>Последние рецепты</h3>
+                <a class="btn btn-primary" th:href="@{/recipes/new}">Добавить рецепт</a>
+            </div>
+            <div class="recipe-grid" th:if="${!latestRecipes.isEmpty()}">
+                <article class="recipe-mini" th:each="recipe : ${latestRecipes}">
+                    <h4 th:text="${recipe.name}">Recipe</h4>
+                    <p th:text="${#lists.size(recipe.ingredients)} + ' ингредиентов'">0 ингредиентов</p>
+                    <a th:href="@{'/recipes/' + ${recipe.id}}">Открыть</a>
+                </article>
+            </div>
+            <p class="empty" th:if="${latestRecipes.isEmpty()}">Добавьте первый рецепт, чтобы начать работу.</p>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager - Recipes</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <h1>Recipe Manager</h1>
+        <p>Планирование питания без хаоса</p>
+        <nav>
+            <a th:href="@{/}" th:classappend="${activePage == 'dashboard'} ? 'active' : ''">Главная</a>
+            <a th:href="@{/recipes}" th:classappend="${activePage == 'recipes'} ? 'active' : ''">Рецепты</a>
+            <a th:href="@{/meal-plan}" th:classappend="${activePage == 'meal-plan'} ? 'active' : ''">План на неделю</a>
+            <a th:href="@{/shopping-list}" th:classappend="${activePage == 'shopping-list'} ? 'active' : ''">Список покупок</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <h2>Рецепты</h2>
+        </header>
+
+        <section class="card">
+            <form class="toolbar" method="get" th:action="@{/recipes}">
+                <input type="text" name="q" placeholder="Поиск по названию или ингредиенту" th:value="${query}">
+                <input type="text" name="category" placeholder="Категория ингредиента" th:value="${category}">
+                <button type="submit" class="btn">Искать</button>
+                <a class="btn btn-primary" th:href="@{/recipes/new}">Добавить рецепт</a>
+            </form>
+        </section>
+
+        <section class="recipe-grid" th:if="${!recipes.isEmpty()}">
+            <article class="card recipe-card" th:each="recipe : ${recipes}">
+                <h3 th:text="${recipe.name}">Recipe Name</h3>
+                <p class="muted" th:text="${#lists.size(recipe.ingredients)} + ' ингредиентов • ' + ${recipe.servings} + ' порций'">meta</p>
+                <p class="snippet" th:text="${#strings.abbreviate(recipe.instruction, 140)}">instruction</p>
+                <div class="actions">
+                    <a class="btn" th:href="@{'/recipes/' + ${recipe.id}}">Детали</a>
+                    <a class="btn" th:href="@{'/recipes/' + ${recipe.id} + '/edit'}">Редактировать</a>
+                    <form th:action="@{'/recipes/' + ${recipe.id} + '/delete'}" method="post">
+                        <button class="btn btn-danger" type="submit">Удалить</button>
+                    </form>
+                </div>
+            </article>
+        </section>
+
+        <section class="card empty" th:if="${recipes.isEmpty()}">
+            Ничего не найдено. Попробуйте изменить фильтры или добавьте новый рецепт.
+        </section>
+    </main>
+</div>
+</body>
+</html>

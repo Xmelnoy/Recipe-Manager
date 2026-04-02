@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager - Recipe Form</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <h1>Recipe Manager</h1>
+        <p>Планирование питания без хаоса</p>
+        <nav>
+            <a th:href="@{/}" th:classappend="${activePage == 'dashboard'} ? 'active' : ''">Главная</a>
+            <a th:href="@{/recipes}" th:classappend="${activePage == 'recipes'} ? 'active' : ''">Рецепты</a>
+            <a th:href="@{/meal-plan}" th:classappend="${activePage == 'meal-plan'} ? 'active' : ''">План на неделю</a>
+            <a th:href="@{/shopping-list}" th:classappend="${activePage == 'shopping-list'} ? 'active' : ''">Список покупок</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <h2 th:text="${isEdit} ? 'Редактировать рецепт' : 'Добавить рецепт'">Форма рецепта</h2>
+        </header>
+
+        <section class="card">
+            <form class="stack" th:action="${isEdit} ? @{'/recipes/' + ${recipeId}} : @{/recipes}" method="post" th:object="${recipeForm}">
+                <label>Название</label>
+                <input type="text" th:field="*{name}" required>
+
+                <label>Порции</label>
+                <input type="number" min="1" th:field="*{servings}" required>
+
+                <label>Инструкция</label>
+                <textarea rows="6" th:field="*{instruction}" required></textarea>
+
+                <label>Ингредиенты</label>
+                <p class="muted">Формат строки: name;category;amount;unit</p>
+                <textarea rows="8" th:field="*{ingredientsText}" placeholder="Tomato;Vegetables;2;pcs"></textarea>
+
+                <div class="actions">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a class="btn" th:href="@{/recipes}">Отмена</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -1,68 +1,75 @@
-# Recipe-Manager
+# Recipe Manager (Spring Boot Web)
 
-Стартовый каркас проекта для менеджера рецептов на **Java** с использованием:
-- **Spring Boot** (веб-часть и REST API),
-- **Thymeleaf** (шаблоны для веб-страниц),
-- **JavaFX** (desktop UI),
-- **Maven** (сборка и управление зависимостями).
+Современное web-приложение для управления рецептами, недельным меню и списком покупок.
 
-## Технологический стек
+## Технологии
 
 - Java 21
 - Maven
-- Spring Boot 3
-- JavaFX 21
-- JUnit 5
+- Spring Boot
+- Spring MVC
+- Thymeleaf
+- HTML + CSS
 
-## Поверхностная структура проекта
+## Структура проекта
 
 ```text
-Recipe-Manager/
-├─ pom.xml
-├─ README.md
-├─ data/
-│  └─ .gitkeep
-├─ docs/
-│  └─ KANBAN.md
-└─ src/
-   ├─ main/
-   │  ├─ java/com/recipemanager/
-   │  │  ├─ RecipeManagerApplication.java
-   │  │  ├─ JavaFxLauncher.java
-   │  │  ├─ controller/RecipeController.java
-   │  │  ├─ model/Recipe.java
-   │  │  └─ service/RecipeService.java
-   │  └─ resources/
-   │     ├─ application.properties
-   │     └─ templates/index.html
-   └─ test/java/com/recipemanager/
-      └─ RecipeManagerApplicationTests.java
+src/main/java/com/recipemanager/
+   RecipeManagerApplication.java
+   controller/
+      HomePageController.java
+      RecipePageController.java
+      MealPlanPageController.java
+      ShoppingListPageController.java
+      RecipeController.java
+   model/
+      Recipe.java
+      Ingredient.java
+      MealPlan.java
+      MealType.java
+      ShoppingListItem.java
+   service/
+      RecipeService.java
+      MealPlanService.java
+      ShoppingListService.java
+   store/
+      InMemoryRecipeStore.java
+      DemoDataFactory.java
+
+src/main/resources/
+   application.properties
+   templates/
+      dashboard.html
+      meal-plan.html
+      shopping-list.html
+      recipes/
+         list.html
+         form.html
+         details.html
+   static/css/
+      app.css
 ```
 
-## Быстрый старт
+## Функциональность
 
-### 1) Проверка сборки и тестов
+- Просмотр списка рецептов
+- Добавление, редактирование, удаление рецептов
+- Детальная карточка рецепта
+- Поиск рецептов по ингредиентам и категории
+- Масштабирование по порциям
+- Планирование меню на неделю
+- Генерация списка покупок по плану
 
-```bash
-mvn test
-```
-
-### 2) Запуск веб-приложения (Spring Boot)
+## Запуск
 
 ```bash
 mvn spring-boot:run
 ```
 
-После запуска:
-- веб-приложение доступно на `http://localhost:8080`
-- REST endpoint доступен на `http://localhost:8080/api/recipes`
+После запуска приложение доступно по адресу:
 
-### 3) Запуск JavaFX приложения
+- http://localhost:8080
 
-```bash
-mvn javafx:run
-```
+## Примечание
 
-## Kanban
-
-Актуальная Kanban-доска: [`docs/KANBAN.md`](docs/KANBAN.md).
+Хранение данных на текущем этапе in-memory (без БД), с демо-данными в `DemoDataFactory`.
